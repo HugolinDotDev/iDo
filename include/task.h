@@ -7,7 +7,8 @@
     #define MAX_TEXT 256
 #endif
 
-typedef struct {
+typedef struct Task {
+    unsigned int id;
     bool accomplished;
     char priority;
     char text[MAX_TEXT];
@@ -15,7 +16,7 @@ typedef struct {
     Date* end;
 } Task;
 
-extern Task* Task_factory(bool accomplished, char priority, char * text, 
-                            char * creation_str, char * end_str);
+extern Task* Task_factory(unsigned int id, bool accomplished, const char priority, const char* text, 
+                            const char* creation_str, const char* end_str);
 extern void Task_destructor(Task* task);
 extern void Task_print(Task* task);

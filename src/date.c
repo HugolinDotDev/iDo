@@ -1,6 +1,6 @@
 #include "../include/date.h"
 
-Date* Date_factory(char * date_str)
+Date* Date_factory(const char* date_str)
 {
     Date* date = malloc(sizeof(Date));
     fatal(date != NULL, "date is a null pointer", 1);

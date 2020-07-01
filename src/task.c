@@ -1,14 +1,14 @@
 #include "../include/task.h"
 
-Task* Task_factory(bool accomplished, char priority, char * text, 
-                    char * creation_str, char * end_str)
+Task* Task_factory(unsigned int id, bool accomplished, const char priority, const char* text, 
+                    const char* creation_str, const char* end_str)
 {
     Task* task = malloc(sizeof(Task));
     fatal(task != NULL, "task is a null pointer", 1);
+    task->id = id;
     task->accomplished = accomplished;
     task->priority = priority;
     strcpy(task->text, text);
-
     Date* creation = Date_factory(creation_str);
     Date* end = Date_factory(end_str);
     task->creation = creation;
@@ -43,13 +43,6 @@ const char* str_accomplished(bool accomplished)
 
 void Task_print(Task* task)
 {
-    printf("%s " YEL "%c " RST "%s\n", str_accomplished(task->accomplished), task->priority, task->text);
+    printf("#%d %s " YEL "%c " RST "%s %s %s\n", task->id, str_accomplished(task->accomplished),
+            task->priority, task->text, task->creation->toString, task->end->toString);
 }
-
-/*
-const char* ...
-    char* task_buffer = malloc(sizeof(MAX_TASK) + 1);
-    snprintf(task_buffer, sizeof(MAX_TASK + 1), "%c %c %s", str_accomplished(task->accomplished),
-    task->priority, task->text);
-    return task_buffer;
-*/

@@ -1,11 +1,7 @@
-#include "../include/task.h"
+#include "../include/cmd.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+    int status = parse_cmd(argc, argv);
 
-
-    Date* date = Date_factory("12/10/2020");
-    Date_debug(date);
-    Date_destructor(date);
-
-    return 0;
+    return status;
 }
