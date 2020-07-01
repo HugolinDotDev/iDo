@@ -30,6 +30,8 @@ void read_tasks(const char* filename, Task** tasks)
         char* tmp = strtok(line_copy, ";");
         id = atoi(tmp);
         tmp = strtok(NULL, ";");
+        // Ici sera le accomplished
+        tmp = strtok(NULL, ";");
         priority = tmp;
         tmp = strtok(NULL, ";");
         text = tmp;
