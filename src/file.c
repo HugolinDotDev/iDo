@@ -1,11 +1,18 @@
 #include "../include/file.h"
 
-const char* read_task(const char* filename, unsigned int id)
+bool str_to_bool(const char* value)
+{
+    if (!strcmp(value, "t"))
+        return true;
+    return false;
+}
+
+Task* read_task(const char* filename, unsigned int id)
 {
 
 }
 
-void read_tasks(const char* filename, Task** tasks)
+void read_tasks(const char* filename, Tasks* tasks)
 {
     FILE* fp;
     char* line = NULL;
@@ -18,7 +25,7 @@ void read_tasks(const char* filename, Task** tasks)
     while ((read = getline(&line, &len, fp)) != -1)
     {
         unsigned int id;
-        bool accomplished = false;
+        bool accomplished;
         char priority;
         char* text;
         char* creation_str;
@@ -27,16 +34,17 @@ void read_tasks(const char* filename, Task** tasks)
         char* tmp = strtok(line, ";");
         id = atoi(tmp);
         tmp = strtok(NULL, ";");
-        // Ici sera le accomplished
+        accomplished = str_to_bool(tmp);
         tmp = strtok(NULL, ";");
-        priority = tmp;
+        priority = *tmp;
         text = strtok(NULL, ";");
         creation_str = strtok(NULL, ";");
         end_str = strtok(NULL, ";");
         end_str[10] = '\0';
 
         Task* task = Task_factory(id, accomplished, priority, text, creation_str, end_str);
-        tasks[i] = task;
+        Tasks_add(tasks, task, i);
+
         i++;
     }
     free(line);
@@ -48,7 +56,7 @@ int write_task(const char* filename, const char* task)
 
 }
 
-int delete_task(const char* filename, unsigned int id)
+int rm_task(const char* filename, unsigned int id)
 {
 
 }
