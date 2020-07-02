@@ -1,6 +1,8 @@
 # Variables
 CC = gcc
-CFLAGS = -W -Wall -ansi -pedantic -O0 -g -fsanitize=address
+CFLAGS = -W -Wall -pedantic -O0 -g -fsanitize=address
+
+all: main
 
 # Objects
 fatal.o: ./src/fatal.c ./include/fatal.h
