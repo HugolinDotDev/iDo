@@ -38,16 +38,23 @@ bool process_cmd(int argc, const char* argv[])
     {
         print_help();
     }
-    else if (!strcmp(cmd, "la"))
+    else if (!strcmp(cmd, "la") || !strcmp(cmd, "ls"))
     {
-        Task* tasks[MAX_LINES];
+        Tasks* tasks = Tasks_factory();
         read_tasks("tasks.csv", tasks);
-        // unsigned int len = sizeof(tasks) / sizeof(tasks[0]);
-        for (int i = 0; i < 2; i++)
+        if (!strcmp(cmd, "la"))
         {
-            Task_print(tasks[i]);
-            Task_destructor(tasks[i]);
+            for (int i = 0; i < tasks->count; i++)
+                Task_pretty(tasks->arr[i]);
         }
+        else
+        {
+            for (int i = 0; i < tasks->count; i++)
+                Task_print(tasks->arr[i]);
+        }
+        for (int i = 0; i < tasks->count; i++)
+            Task_destructor(tasks->arr[i]);
+        Tasks_destructor(tasks);
     }
     return true;
 }
