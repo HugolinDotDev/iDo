@@ -20,32 +20,23 @@ void read_tasks(const char* filename, Task** tasks)
         unsigned int id;
         bool accomplished = false;
         char priority;
-        char* text = malloc(MAX_TEXT);
-        char* creation_str = malloc(MAX_TEXT);
-        char* end_str = malloc(MAX_TEXT);
+        char* text;
+        char* creation_str;
+        char* end_str;
 
-        char line_copy[300];
-        strcpy(line_copy, line);
-
-        char* tmp = strtok(line_copy, ";");
+        char* tmp = strtok(line, ";");
         id = atoi(tmp);
         tmp = strtok(NULL, ";");
         // Ici sera le accomplished
         tmp = strtok(NULL, ";");
         priority = tmp;
-        tmp = strtok(NULL, ";");
-        text = tmp;
-        tmp = strtok(NULL, ";");
-        creation_str = tmp;
-        tmp = strtok(NULL, ";");
-        end_str = tmp;
+        text = strtok(NULL, ";");
+        creation_str = strtok(NULL, ";");
+        end_str = strtok(NULL, ";");
+        end_str[10] = '\0';
 
         Task* task = Task_factory(id, accomplished, priority, text, creation_str, end_str);
         tasks[i] = task;
-
-        free(text);
-        free(creation_str);
-        free(end_str);
         i++;
     }
     free(line);
@@ -59,5 +50,5 @@ int write_task(const char* filename, const char* task)
 
 int delete_task(const char* filename, unsigned int id)
 {
-    
+
 }
