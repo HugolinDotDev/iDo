@@ -19,14 +19,14 @@ void print_help()
 bool check_cmd_exists(const char* cmd)
 {
     unsigned int len = sizeof(COMMANDS) / sizeof(COMMANDS[0]);
-    for (int i = 0; i < len; i++)
+    for (unsigned int i = 0; i < len; i++)
     {
         if (!strcmp(cmd, COMMANDS[i]))
         {
             return true;
         }
     }
-    printf(RED "Command '%s' does not exist\n", cmd);
+    printf(RED "Command '%s' does not exist\n" RST, cmd);
     return false;
 }
 
