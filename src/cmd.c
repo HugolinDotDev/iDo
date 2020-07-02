@@ -42,11 +42,11 @@ bool process_cmd(int argc, const char* argv[])
     {
         Task* tasks[MAX_LINES];
         read_tasks("tasks.csv", tasks);
-        unsigned int len = sizeof(tasks) / sizeof(tasks[0]);
-        for (int i = 0; i < 3; i++)
+        // unsigned int len = sizeof(tasks) / sizeof(tasks[0]);
+        for (int i = 0; i < 2; i++)
         {
-            //Task_print(tasks[i]);
-            //Task_destructor(tasks[i]);
+            Task_print(tasks[i]);
+            Task_destructor(tasks[i]);
         }
     }
     return true;
@@ -54,7 +54,7 @@ bool process_cmd(int argc, const char* argv[])
 
 int parse_cmd(int argc, const char* argv[])
 {
-    int status = 0;    
+    int status = 0;
     if (argc > 1)
     {
         if (check_cmd_exists(argv[1]))
