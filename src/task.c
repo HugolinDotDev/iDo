@@ -43,6 +43,37 @@ const char* str_accomplished(bool accomplished)
 
 void Task_print(Task* task)
 {
-    printf("#%d %s " YEL "%c " RST "%s %s %s\n", task->id, str_accomplished(task->accomplished),
+    printf(YEL "#%d " RST "%s " CYN "%c " RST "%s " BLU "%s " RST "> " MAG "%s" RST "\n", task->id, str_accomplished(task->accomplished),
             task->priority, task->text, task->creation->toString, task->end->toString);
+}
+
+void Task_pretty(Task* task)
+{
+    printf("--------------------------------------------------\n"
+            YEL "#%d\n" RST
+            "Accomplished : %s\n" RST
+            "Priority     : " CYN "%c\n" RST
+            "To do        : %s\n"
+            "Created      : " BLU "%s\n" RST
+            "End          : " MAG "%s\n" RST,
+            task->id, str_accomplished(task->accomplished), task->priority, task->text,
+            task->creation->toString, task->end->toString);
+}
+
+Tasks* Tasks_factory()
+{
+    Tasks* tasks = malloc(sizeof(Tasks));
+    tasks->count = 0;
+    return tasks;
+}
+
+void Tasks_destructor(Tasks* tasks)
+{
+    free(tasks);
+}
+
+void Tasks_add(Tasks* tasks, Task* task, unsigned int index)
+{
+    tasks->arr[index] = task;
+    tasks->count++;
 }
