@@ -9,7 +9,42 @@ bool str_to_bool(const char* value)
 
 Task* read_task(const char* filename, unsigned int id)
 {
+    FILE* fp;
+    char* line = NULL;
+    size_t len = 0;
+    ssize_t read;
+    fp = fopen(filename, "r");
+    fatal(fp != NULL, "fp is a null pointer", 1);
+    Task* task = NULL;
 
+    while ((read = getline(&line, &len, fp)) != -1)
+    {
+        char* tmp = strtok(line, ";");
+        unsigned int fid = atoi(tmp);
+        if (id == fid)
+        {
+            bool accomplished;
+            char priority;
+            char* text;
+            char* creation_str;
+            char* end_str;
+            
+            tmp = strtok(NULL, ";");
+            accomplished = str_to_bool(tmp);
+            tmp = strtok(NULL, ";");
+            priority = *tmp;
+            text = strtok(NULL, ";");
+            creation_str = strtok(NULL, ";");
+            end_str = strtok(NULL, ";");
+            end_str[10] = '\0';
+
+            task = Task_factory(fid, accomplished, priority, text, creation_str, end_str);
+            break;
+        }
+    }
+    free(line);
+    fclose(fp);
+    return task;
 }
 
 void read_tasks(const char* filename, Tasks* tasks)
