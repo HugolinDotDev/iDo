@@ -2,6 +2,16 @@
 
 const char* COMMANDS[] = { "h", "la", "ls", "add", "edit", "rm", "check", "uncheck", "find", "findby" };
 
+bool is_number(const char* string)
+{
+    for (int i = 0; i < strlen(string); i++)
+    {
+        if (string[i] < 48 || string[i] > 57)
+            return false;
+    }
+    return true;
+}
+
 void print_help()
 {
     printf(YEL "Usage : " RST "todoit COMMAND [OPTIONS]\n\n"
@@ -55,6 +65,27 @@ bool process_cmd(int argc, const char* argv[])
         for (int i = 0; i < tasks->count; i++)
             Task_destructor(tasks->arr[i]);
         Tasks_destructor(tasks);
+    }
+    else if (!strcmp(cmd, "find"))
+    {
+        if (argc < 3)
+        {
+            printf(RED "Argument 'id' missing " RST "-> todoit find <id>\n");
+            return false;
+        }
+        if (!is_number(argv[2]))
+        {
+            printf(RED "id must be a number, '%s' given\n", argv[2]);
+            return false;
+        }
+        Task* task = read_task("tasks.csv", atoi(argv[2]));
+        if (task == NULL)
+        {
+            printf(RED "Task with id #%s not found\n" RST, argv[2]);
+            return false;
+        }
+        Task_pretty(task);
+        Task_destructor(task);
     }
     return true;
 }
