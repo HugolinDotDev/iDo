@@ -16,11 +16,10 @@ Les commandes actuellement fonctionnelles sont : h, la, ls, find
 
 * Gérer les cas d'erreurs
 * Vérifier les entrées
-* Ajouter une tâche (🚧 En cours)
+* Ajouter une tâche
 * Chercher une/des tâche(s) avec filtre
 * Modifier une tâche
-* Compléter une tâche
-* Décompléter une tâche
+* Compléter/Décompléter une tâche (🚧 En cours)
 * Supprimer une tâche
 
 ## Crédits
