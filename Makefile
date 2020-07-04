@@ -8,7 +8,10 @@ all: main
 fatal.o: ./src/fatal.c ./include/fatal.h
 	$(CC) $(CFLAGS) -c ./src/fatal.c
 
-file.o: ./src/file.c ./include/file.h ./include/fatal.h ./include/task.h
+reader.o: ./src/reader.c ./include/reader.h
+	$(CC) $(CFLAGS) -c ./src/reader.c
+
+file.o: ./src/file.c ./include/file.h ./include/task.h ./include/reader.h
 	$(CC) $(CFLAGS) -c ./src/file.c
 
 date.o: ./src/date.c ./include/date.h ./include/fatal.h
@@ -24,8 +27,8 @@ main.o: ./src/main.c ./include/cmd.h ./include/task.h
 	$(CC) $(CFLAGS) -c ./src/main.c
 
 # Executable
-main: ./src/main.o ./src/fatal.o ./src/cmd.o ./src/task.o ./src/file.o ./src/date.o
-	$(CC) $(CFLAGS) -o ./build/todoit ./src/main.o ./src/cmd.o ./src/fatal.o ./src/file.o ./src/date.o ./src/task.o
+main: ./src/main.o ./src/fatal.o ./src/cmd.o ./src/reader.o ./src/task.o ./src/file.o ./src/date.o
+	$(CC) $(CFLAGS) -o ./build/todoit ./src/main.o ./src/cmd.o ./src/fatal.o ./src/file.o ./src/date.o ./src/task.o ./src/reader.o
 
 # Clean object files
 clean:
