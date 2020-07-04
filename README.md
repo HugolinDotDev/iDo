@@ -5,7 +5,7 @@ Ce projet est un remake d'un projet Python de première année en C.
 ## Tester le projet
 
 ⚠️ En cours de développement, ça peut capoter...  
-Les commandes actuellement utilisables sont : h, la, ls, find
+Les commandes actuellement fonctionnelles sont : h, la, ls, find  
 
 1. Compiler avec `$ make main`
 2. Éxecuter avec `$ ./build/todoit`
@@ -16,7 +16,7 @@ Les commandes actuellement utilisables sont : h, la, ls, find
 
 * Gérer les cas d'erreurs
 * Vérifier les entrées
-* Ajouter une tâche
+* Ajouter une tâche (🚧 En cours)
 * Chercher une/des tâche(s) avec filtre
 * Modifier une tâche
 * Compléter une tâche
