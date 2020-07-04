@@ -21,6 +21,7 @@ typedef struct Task {
 
 extern Task* Task_factory(unsigned int id, bool accomplished, const char priority, const char* text, 
                             const char* creation_str, const char* end_str);
+extern void Task_set_state(Task* task, bool state);
 extern void Task_destructor(Task* task);
 extern void Task_print(Task* task);
 extern void Task_pretty(Task* task);
@@ -31,5 +32,5 @@ typedef struct Tasks {
 } Tasks;
 
 extern Tasks* Tasks_factory();
-extern void Tasks_add(Tasks* tasks, Task* task, unsigned int index);
+extern void Tasks_add(Tasks* tasks, Task* task);
 extern void Tasks_destructor(Tasks* tasks);

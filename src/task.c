@@ -1,5 +1,7 @@
 #include "../include/task.h"
 
+/* SINGLE TASK */
+
 Task* Task_factory(unsigned int id, bool accomplished, const char priority, const char* text, 
                     const char* creation_str, const char* end_str)
 {
@@ -16,6 +18,11 @@ Task* Task_factory(unsigned int id, bool accomplished, const char priority, cons
     return task;
 }
 
+void Task_set_state(Task* task, bool state)
+{
+    task->accomplished = state;
+}
+
 void Task_destructor(Task* task)
 {
     Date_destructor(task->creation);
@@ -23,11 +30,11 @@ void Task_destructor(Task* task)
     free(task);
 }
 
-int Task_cmp(Task* first, Task* second)
+int Task_cmp_default(Task* first, Task* second)
 {
-    if (first->priority < second->priority)
+    if (first->id < second->id)
         return 1;
-    else if (first->priority > second->priority)
+    else if (first->id > second->id)
         return -1;
     return 0;
 }
@@ -46,6 +53,9 @@ void Task_print(Task* task)
     printf(YEL "#%d " RST "%s " CYN "%c " RST "%s " BLU "%s " RST "> " MAG "%s" RST "\n", task->id, str_accomplished(task->accomplished),
             task->priority, task->text, task->creation->toString, task->end->toString);
 }
+
+
+/** TASKS CONTAINER **/
 
 void Task_pretty(Task* task)
 {
@@ -72,8 +82,8 @@ void Tasks_destructor(Tasks* tasks)
     free(tasks);
 }
 
-void Tasks_add(Tasks* tasks, Task* task, unsigned int index)
+void Tasks_add(Tasks* tasks, Task* task)
 {
-    tasks->arr[index] = task;
+    tasks->arr[tasks->count] = task;
     tasks->count++;
 }
