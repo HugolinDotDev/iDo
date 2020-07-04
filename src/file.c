@@ -9,17 +9,11 @@ bool str_to_bool(const char* value)
 
 Task* read_task(const char* filename, unsigned int id)
 {
-    FILE* fp;
-    char* line = NULL;
-    size_t len = 0;
-    ssize_t read;
-    fp = fopen(filename, "r");
-    fatal(fp != NULL, "fp is a null pointer", 1);
+    Reader* reader = Reader_factory(filename);
     Task* task = NULL;
-
-    while ((read = getline(&line, &len, fp)) != -1)
+    while ((reader->read = getline(&(reader->line), &(reader->len), reader->fp)) != -1)
     {
-        char* tmp = strtok(line, ";");
+        char* tmp = strtok(reader->line, ";");
         unsigned int fid = atoi(tmp);
         if (id == fid)
         {
@@ -42,22 +36,14 @@ Task* read_task(const char* filename, unsigned int id)
             break;
         }
     }
-    free(line);
-    fclose(fp);
+    Reader_destructor(reader);
     return task;
 }
 
 void read_tasks(const char* filename, Tasks* tasks)
 {
-    FILE* fp;
-    char* line = NULL;
-    size_t len = 0;
-    ssize_t read;
-    fp = fopen(filename, "r");
-    fatal(fp != NULL, "fp is a null pointer", 1);
-
-    int i = 0;
-    while ((read = getline(&line, &len, fp)) != -1)
+    Reader* reader = Reader_factory(filename);
+    while ((reader->read = getline(&(reader->line), &(reader->len), reader->fp)) != -1)
     {
         unsigned int id;
         bool accomplished;
@@ -66,7 +52,7 @@ void read_tasks(const char* filename, Tasks* tasks)
         char* creation_str;
         char* end_str;
 
-        char* tmp = strtok(line, ";");
+        char* tmp = strtok(reader->line, ";");
         id = atoi(tmp);
         tmp = strtok(NULL, ";");
         accomplished = str_to_bool(tmp);
@@ -78,20 +64,22 @@ void read_tasks(const char* filename, Tasks* tasks)
         end_str[10] = '\0';
 
         Task* task = Task_factory(id, accomplished, priority, text, creation_str, end_str);
-        Tasks_add(tasks, task, i);
-
-        i++;
+        Tasks_add(tasks, task);
     }
-    free(line);
-    fclose(fp);
+    Reader_destructor(reader);
 }
 
-int write_task(const char* filename, const char* task)
+bool write_task(const char* filename, const char* task)
 {
 
 }
 
-int rm_task(const char* filename, unsigned int id)
+bool set_state_task(const char* filename, const char* command, Task* task)
+{
+    
+}
+
+bool rm_task(const char* filename, unsigned int id)
 {
 
 }
