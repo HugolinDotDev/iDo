@@ -1,6 +1,6 @@
 #include "../include/cmd.h"
 
-const char* COMMANDS[] = { "h", "la", "ls", "add", "edit", "rm", "check", "uncheck", "find", "findby" };
+const char* COMMANDS[] = { "h", "la", "ls", "add", "edit", "rm", "tick", "ntick", "find", "findby" };
 
 bool is_number(const char* string)
 {
@@ -66,6 +66,28 @@ bool process_cmd(int argc, const char* argv[])
             Task_destructor(tasks->arr[i]);
         Tasks_destructor(tasks);
     }
+    else if (!strcmp(cmd, "tick") || !strcmp(cmd, "ntick"))
+    {
+        if (argc < 3)
+        {
+            printf(RED "Argument 'id' missing " RST "-> todoit (n)tick <id>\n");
+            return false;
+        }
+        if (!is_number(argv[2]))
+        {
+            printf(RED "id must be a null or positive number, '%s' given\n", argv[2]);
+            return false;
+        }
+        Task* task = read_task("tasks.csv", atoi(argv[2]));
+        if (task == NULL)
+        {
+            printf(RED "Task with id #%s not found\n" RST, argv[2]);
+            return false;
+        }
+        set_state_task("tasks.csv", argv[1], task);
+        Task_pretty(task);
+        Task_destructor(task);
+    }
     else if (!strcmp(cmd, "find"))
     {
         if (argc < 3)
@@ -75,7 +97,7 @@ bool process_cmd(int argc, const char* argv[])
         }
         if (!is_number(argv[2]))
         {
-            printf(RED "id must be a number, '%s' given\n", argv[2]);
+            printf(RED "id must be a null or positive number, '%s' given\n", argv[2]);
             return false;
         }
         Task* task = read_task("tasks.csv", atoi(argv[2]));
