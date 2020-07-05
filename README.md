@@ -2,7 +2,7 @@
 
 C remake of a first year Python project.
 
-## Tester le projet
+## 📒 How to use ?
 
 ⚠️ Development in progress...  
 Current working commands are : h, la, ls, find  
@@ -12,7 +12,7 @@ Current working commands are : h, la, ls, find
 3. Clean object files with `$ make clean`
 4. (Clean object files and executable with `$ make mrproper`)
 
-## Todo
+## 📋 Todo
 
 * Handle error cases
 * Check inputs
@@ -22,8 +22,8 @@ Current working commands are : h, la, ls, find
 * Tick/Untick task (🚧 Currently in progress)
 * Remove task
 
-## Acknowledgements
+## 🙏 Acknowledgements
 
 Special thanks to the best C teacher [@aranega](https://github.com/aranega) 🧞‍♂️
 
-## MIT License
+## ⚖️ MIT License
