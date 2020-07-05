@@ -1,27 +1,29 @@
 # Todoit
 
-Ce projet est un remake d'un projet Python de première année en C.  
+C remake of a first year Python project.
 
 ## Tester le projet
 
-⚠️ En cours de développement, ça peut capoter...  
-Les commandes actuellement fonctionnelles sont : h, la, ls, find  
+⚠️ Development in progress...  
+Current working commands are : h, la, ls, find  
 
-1. Compiler avec `$ make main`
-2. Éxecuter avec `$ ./build/todoit`
-3. Clean les fichiers objets avec `$ make clean`
-4. (Clean les fichiers objets et l'éxecutable avec `$ make mrproper`)
+1. Compile with `$ make main`
+2. Execute with `$ ./build/todoit`
+3. Clean object files with `$ make clean`
+4. (Clean object files and executable with `$ make mrproper`)
 
 ## Todo
 
-* Gérer les cas d'erreurs
-* Vérifier les entrées
-* Ajouter une tâche
-* Chercher une/des tâche(s) avec filtre
-* Modifier une tâche
-* Compléter/Décompléter une tâche (🚧 En cours)
-* Supprimer une tâche
+* Handle error cases
+* Check inputs
+* Add task
+* Find task(s) with filter
+* Edit task
+* Tick/Untick task (🚧 Currently in progress)
+* Remove task
 
-## Crédits
+## Acknowledgements
 
-Remerciements particuliers pour le meilleur professeur de C @aranega 🧞‍♂️
+Special thanks to the best C teacher [@aranega](https://github.com/aranega) 🧞‍♂️
+
+## MIT License
