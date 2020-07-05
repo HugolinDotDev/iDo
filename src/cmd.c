@@ -84,7 +84,7 @@ bool process_cmd(int argc, const char* argv[])
             return false;
         }
         Task* task = NULL;
-        read_task("tasks.csv", atoi(argv[2]), task);
+        read_task("tasks.csv", atoi(argv[2]), &task);
         if (task == NULL)
         {
             printf(RED "Task with id #%s not found\n" RST, argv[2]);
