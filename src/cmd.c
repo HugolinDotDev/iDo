@@ -50,8 +50,13 @@ bool process_cmd(int argc, const char* argv[])
     }
     else if (!strcmp(cmd, "la") || !strcmp(cmd, "ls"))
     {
-        Tasks* tasks = Tasks_factory();
-        read_tasks("tasks.csv", tasks);
+        Tasks* tasks;
+        read_tasks("tasks.csv", &tasks);
+        if (tasks->count == 0)
+        {
+            printf(YEL "You have nothing to do for now\n" RST);
+            return true;
+        }
         if (!strcmp(cmd, "la"))
         {
             for (int i = 0; i < tasks->count; i++)
@@ -75,10 +80,11 @@ bool process_cmd(int argc, const char* argv[])
         }
         if (!is_number(argv[2]))
         {
-            printf(RED "id must be a null or positive number, '%s' given\n", argv[2]);
+            printf(RED "Argument 'id' must be a null or positive number, '%s' given\n", argv[2]);
             return false;
         }
-        Task* task = read_task("tasks.csv", atoi(argv[2]));
+        Task* task = NULL;
+        read_task("tasks.csv", atoi(argv[2]), task);
         if (task == NULL)
         {
             printf(RED "Task with id #%s not found\n" RST, argv[2]);
@@ -97,10 +103,11 @@ bool process_cmd(int argc, const char* argv[])
         }
         if (!is_number(argv[2]))
         {
-            printf(RED "id must be a null or positive number, '%s' given\n", argv[2]);
+            printf(RED "Argument 'id' must be a null or positive number, '%s' given\n", argv[2]);
             return false;
         }
-        Task* task = read_task("tasks.csv", atoi(argv[2]));
+        Task* task = NULL;
+        read_task("tasks.csv", atoi(argv[2]), &task);
         if (task == NULL)
         {
             printf(RED "Task with id #%s not found\n" RST, argv[2]);
