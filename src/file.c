@@ -7,10 +7,9 @@ bool str_to_bool(const char* value)
     return false;
 }
 
-Task* read_task(const char* filename, unsigned int id)
+ssize_t read_task(const char* filename, unsigned int id, Task** task)
 {
     Reader* reader = Reader_factory(filename);
-    Task* task = NULL;
     while ((reader->read = getline(&(reader->line), &(reader->len), reader->fp)) != -1)
     {
         char* tmp = strtok(reader->line, ";");
@@ -32,17 +31,21 @@ Task* read_task(const char* filename, unsigned int id)
             end_str = strtok(NULL, ";");
             end_str[10] = '\0';
 
-            task = Task_factory(fid, accomplished, priority, text, creation_str, end_str);
-            break;
+            Task* tmp_task = Task_factory(fid, accomplished, priority, text, creation_str, end_str);
+            *task = tmp_task;
+            ssize_t read = reader->read;
+            Reader_destructor(reader);
+            return read;
         }
     }
     Reader_destructor(reader);
-    return task;
+    return -1;
 }
 
-void read_tasks(const char* filename, Tasks* tasks)
+void read_tasks(const char* filename, Tasks** tasks)
 {
     Reader* reader = Reader_factory(filename);
+    Tasks* tmp_tasks = Tasks_factory();
     while ((reader->read = getline(&(reader->line), &(reader->len), reader->fp)) != -1)
     {
         unsigned int id;
@@ -64,8 +67,9 @@ void read_tasks(const char* filename, Tasks* tasks)
         end_str[10] = '\0';
 
         Task* task = Task_factory(id, accomplished, priority, text, creation_str, end_str);
-        Tasks_add(tasks, task);
+        Tasks_add(tmp_tasks, task);
     }
+    *tasks = tmp_tasks;
     Reader_destructor(reader);
 }
 
@@ -76,7 +80,7 @@ bool write_task(const char* filename, const char* task)
 
 bool set_state_task(const char* filename, const char* command, Task* task)
 {
-    
+
 }
 
 bool rm_task(const char* filename, unsigned int id)
