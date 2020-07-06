@@ -2,7 +2,6 @@
 
 #include <stdlib.h>
 
-#include "../include/reader.h"
 #include "../include/task.h"
 
 extern ssize_t read_task(const char* filename, unsigned int id, Task** task);
