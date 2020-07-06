@@ -33,9 +33,17 @@ bool str_to_bool(const char* value)
     return false;
 }
 
+char bool_to_char(bool value)
+{
+    if (value)
+        return 't';
+    return 'f';
+}
+
 ssize_t read_task(const char* filename, unsigned int id, Task** task)
 {
     File* file = File_factory(filename, "r");
+    ssize_t read = 0;
     while ((file->read = getline(&(file->line), &(file->len), file->fp)) != -1)
     {
         char* tmp = strtok(file->line, ";");
@@ -59,10 +67,10 @@ ssize_t read_task(const char* filename, unsigned int id, Task** task)
 
             Task* tmp_task = Task_factory(fid, accomplished, priority, text, creation_str, end_str);
             *task = tmp_task;
-            ssize_t read = file->read;
             File_destructor(file);
             return read;
         }
+        read += file->read;
     }
     File_destructor(file);
     return -1;
@@ -99,17 +107,13 @@ void read_tasks(const char* filename, Tasks** tasks)
     File_destructor(file);
 }
 
-bool write_task(const char* filename, const char* task)
+void rewrite_tasks(const char* filename, Tasks* tasks)
 {
-
-}
-
-bool set_state_task(const char* filename, const char* command, Task* task)
-{
-
-}
-
-bool rm_task(const char* filename, unsigned int id)
-{
-
+    File* file = File_factory(filename, "w");
+    for (unsigned int i = 0; i < tasks->count; i++)
+    {
+        fprintf(file->fp, "%d;%c;%c;%s;%s;%s\n", tasks->arr[i]->id, bool_to_char(tasks->arr[i]->accomplished),
+                tasks->arr[i]->priority, tasks->arr[i]->text, tasks->arr[i]->creation->toString, tasks->arr[i]->end->toString);
+    }
+    File_destructor(file);
 }
