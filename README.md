@@ -14,15 +14,15 @@ C remake of a first year Python project.
 
 ### Commands
 
-⚠️ tasks.csv file must be in the current folder you are working on
-Current working commands are :   
+⚠️ *tasks.csv file must be in the current folder you are working on.*  
+Current working commands are :  
 
-* `$ todoit h`          Print help
-* `$ todoit ls`         Print tasks
-* `$ todoit la`         Print tasks in elegant way
-* `$ todoit find <id>`  Print the task which correspond to id
-* `$ todoit tick <id>`  Complete the task which correspond to id
-* `$ todoit ntick <id>` Uncomplete the task which correspond to id
+* `$ todoit h`          : Print help
+* `$ todoit ls`         : Print tasks
+* `$ todoit la`         : Print tasks in elegant way
+* `$ todoit find <id>`  : Print the task which correspond to id
+* `$ todoit tick <id>`  : Complete the task which correspond to id
+* `$ todoit ntick <id>` : Uncomplete the task which correspond to id
 
 ## 📋 Todo for now
 
