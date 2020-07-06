@@ -32,9 +32,7 @@ bool check_cmd_exists(const char* cmd)
     for (unsigned int i = 0; i < len; i++)
     {
         if (!strcmp(cmd, COMMANDS[i]))
-        {
             return true;
-        }
     }
     printf(RED "Command '%s' does not exist\n" RST, cmd);
     return false;
@@ -150,6 +148,44 @@ bool process_cmd(int argc, char* argv[])
         }
         Task_pretty(task);
         Task_destructor(task);
+    }
+    else if (!strcmp(cmd, "rm"))
+    {
+        if (argc < 3)
+        {
+            printf(RED "Argument 'id' missing " RST "-> todoit rm <id>\n");
+            return false;
+        }
+        if (!is_number(argv[2]))
+        {
+            printf(RED "Argument 'id' must be a null or positive number, '%s' given\n", argv[2]);
+            return false;
+        }
+        Tasks* tasks = NULL;
+        read_tasks(FILENAME, &tasks);
+        if (tasks->count == 0)
+        {
+            printf(YEL "You have nothing to do for now\n" RST);
+            Tasks_destructor(tasks);
+            return true;
+        }
+        for (unsigned int i = 0; i < tasks->count; i++)
+        {
+            if (tasks->arr[i]->id == atoi(argv[2]))
+            {
+                Tasks* new_tasks = Tasks_factory();
+                Tasks_cpy_without(tasks, new_tasks, tasks->arr[i]->id);
+                rewrite_tasks(FILENAME, new_tasks);
+                printf(GRN "Task #%d removed\n" RST, tasks->arr[i]->id);
+                Task_pretty(tasks->arr[i]);
+                Tasks_destructor(new_tasks);
+                Tasks_destructor(tasks);
+                return true;
+            }
+        }
+        printf(RED "Task with id #%s not found\n" RST, argv[2]);
+        Tasks_destructor(tasks);
+        return false;
     }
     return true;
 }
