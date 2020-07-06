@@ -54,9 +54,6 @@ void Task_print(Task* task)
             task->priority, task->text, task->creation->toString, task->end->toString);
 }
 
-
-/** TASKS CONTAINER **/
-
 void Task_pretty(Task* task)
 {
     printf("--------------------------------------------------\n"
@@ -70,6 +67,9 @@ void Task_pretty(Task* task)
             task->creation->toString, task->end->toString);
 }
 
+
+/** TASKS CONTAINER **/
+
 Tasks* Tasks_factory()
 {
     Tasks* tasks = malloc(sizeof(Tasks));
@@ -79,6 +79,11 @@ Tasks* Tasks_factory()
 
 void Tasks_destructor(Tasks* tasks)
 {
+    if (tasks->count > 0)
+    {
+        for (unsigned int i = 0; i < tasks->count; i++)
+            Task_destructor(tasks->arr[i]);
+    }
     free(tasks);
 }
 
