@@ -1,10 +1,10 @@
 #include "../include/cmd.h"
 
-const char* COMMANDS[] = { "h", "la", "ls", "add", "edit", "rm", "tick", "ntick", "find", "findby" };
+const char* COMMANDS[] = { "h", "la", "ls", "add", "edit", "rm", "tick", "ntick", "find", "sort" };
 
 bool is_number(const char* string)
 {
-    for (int i = 0; i < strlen(string); i++)
+    for (unsigned long i = 0; i < strlen(string); i++)
     {
         if (string[i] < 48 || string[i] > 57)
             return false;
@@ -20,10 +20,10 @@ void print_help()
             GRN "add        " RST "Add a task\n"
             GRN "edit       " RST "Edit a task\n"
             GRN "rm         " RST "Delete a task\n"
-            GRN "check      " RST "Complete a task\n"
-            GRN "uncheck    " RST "Uncomplete a task\n"
+            GRN "tick       " RST "Complete a task\n"
+            GRN "ntick      " RST "Uncomplete a task\n"
             GRN "find       " RST "Find a task by its id\n"
-            GRN "findby     " RST "Find by a filter\n");
+            GRN "sort       " RST "Find by a filter\n");
 }
 
 bool check_cmd_exists(const char* cmd)
@@ -40,7 +40,7 @@ bool check_cmd_exists(const char* cmd)
     return false;
 }
 
-bool process_cmd(int argc, const char* argv[])
+bool process_cmd(int argc, char* argv[])
 {
     char cmd[10];
     strcpy(cmd, argv[1]);
@@ -51,24 +51,23 @@ bool process_cmd(int argc, const char* argv[])
     else if (!strcmp(cmd, "la") || !strcmp(cmd, "ls"))
     {
         Tasks* tasks;
-        read_tasks("tasks.csv", &tasks);
+        read_tasks(FILENAME, &tasks);
         if (tasks->count == 0)
         {
             printf(YEL "You have nothing to do for now\n" RST);
+            Tasks_destructor(tasks);
             return true;
         }
         if (!strcmp(cmd, "la"))
         {
-            for (int i = 0; i < tasks->count; i++)
+            for (unsigned int i = 0; i < tasks->count; i++)
                 Task_pretty(tasks->arr[i]);
         }
         else
         {
-            for (int i = 0; i < tasks->count; i++)
+            for (unsigned int i = 0; i < tasks->count; i++)
                 Task_print(tasks->arr[i]);
         }
-        for (int i = 0; i < tasks->count; i++)
-            Task_destructor(tasks->arr[i]);
         Tasks_destructor(tasks);
     }
     else if (!strcmp(cmd, "tick") || !strcmp(cmd, "ntick"))
@@ -83,16 +82,52 @@ bool process_cmd(int argc, const char* argv[])
             printf(RED "Argument 'id' must be a null or positive number, '%s' given\n", argv[2]);
             return false;
         }
-        Task* task = NULL;
-        read_task("tasks.csv", atoi(argv[2]), &task);
-        if (task == NULL)
+        Tasks* tasks = NULL;
+        read_tasks(FILENAME, &tasks);
+        if (tasks->count == 0)
         {
-            printf(RED "Task with id #%s not found\n" RST, argv[2]);
-            return false;
+            printf(YEL "You have nothing to do for now\n" RST);
+            Tasks_destructor(tasks);
+            return true;
         }
-        set_state_task("tasks.csv", argv[1], task);
-        Task_pretty(task);
-        Task_destructor(task);
+        for (unsigned int i = 0; i < tasks->count; i++)
+        {
+            if (tasks->arr[i]->id == atoi(argv[2]))
+            {
+                if (!strcmp(cmd, "tick") && !tasks->arr[i]->accomplished)
+                {
+                    Task_set_state(tasks->arr[i], true);
+                    rewrite_tasks(FILENAME, tasks);
+                    printf(GRN "Task #%d completed\n" RST, tasks->arr[i]->id);
+                    Task_pretty(tasks->arr[i]);
+                    Tasks_destructor(tasks);
+                    return true;
+                }
+                else if (!strcmp(cmd, "tick") && tasks->arr[i]->accomplished)
+                {
+                    printf(RED "Task already completed\n" RST);
+                }
+                else if (!strcmp(cmd, "ntick") && tasks->arr[i]->accomplished)
+                {
+                    Task_set_state(tasks->arr[i], false);
+                    rewrite_tasks(FILENAME, tasks);
+                    printf(GRN "Task #%d uncompleted\n" RST, tasks->arr[i]->id);
+                    Task_pretty(tasks->arr[i]);
+                    Tasks_destructor(tasks);
+                    return true;
+                }
+                else
+                {
+                    printf(RED "Task already uncompleted\n" RST);
+                }
+                Task_pretty(tasks->arr[i]);
+                Tasks_destructor(tasks);
+                return false;
+            }
+        }
+        printf(RED "Task with id #%s not found\n" RST, argv[2]);
+        Tasks_destructor(tasks);
+        return false;
     }
     else if (!strcmp(cmd, "find"))
     {
@@ -107,7 +142,7 @@ bool process_cmd(int argc, const char* argv[])
             return false;
         }
         Task* task = NULL;
-        read_task("tasks.csv", atoi(argv[2]), &task);
+        read_task(FILENAME, atoi(argv[2]), &task);
         if (task == NULL)
         {
             printf(RED "Task with id #%s not found\n" RST, argv[2]);
@@ -119,7 +154,7 @@ bool process_cmd(int argc, const char* argv[])
     return true;
 }
 
-int parse_cmd(int argc, const char* argv[])
+int parse_cmd(int argc, char* argv[])
 {
     int status = 0;
     if (argc > 1)

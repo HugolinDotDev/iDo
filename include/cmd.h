@@ -2,4 +2,8 @@
 
 #include "../include/file.h"
 
-extern int parse_cmd(int argc, const char* argv[]);
+#ifndef FILENAME
+    #define FILENAME "tasks.csv"
+#endif
+
+extern int parse_cmd(int argc, char* argv[]);
