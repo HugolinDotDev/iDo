@@ -3,7 +3,7 @@
 C remake of a first year Python project.  
 ⚠️ Development in progress...
 
-## 📒 How to use
+## 📒 Manual
 
 ### Use
 
@@ -23,6 +23,7 @@ Current working commands are :
 * `$ todoit find <id>`  : Print the task which correspond to id
 * `$ todoit tick <id>`  : Complete the task which correspond to id
 * `$ todoit ntick <id>` : Uncomplete the task which correspond to id
+* `$ todoit rm <id>`    : Remove a task definitely
 
 ## 📋 Todo for now
 
@@ -32,7 +33,6 @@ Current working commands are :
 * Find task(s) with filter
 * Sort tasks with filter
 * Edit task
-* Remove task
 
 ## 🙏 Acknowledgements
 
