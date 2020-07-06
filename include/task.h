@@ -34,3 +34,4 @@ typedef struct Tasks {
 extern Tasks* Tasks_factory();
 extern void Tasks_add(Tasks* tasks, Task* task);
 extern void Tasks_destructor(Tasks* tasks);
+extern void Tasks_cpy_without(Tasks* emitter, Tasks* receiver, int excluded);

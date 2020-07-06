@@ -77,6 +77,12 @@ Tasks* Tasks_factory()
     return tasks;
 }
 
+void Tasks_add(Tasks* tasks, Task* task)
+{
+    tasks->arr[tasks->count] = task;
+    tasks->count++;
+}
+
 void Tasks_destructor(Tasks* tasks)
 {
     if (tasks->count > 0)
@@ -87,8 +93,15 @@ void Tasks_destructor(Tasks* tasks)
     free(tasks);
 }
 
-void Tasks_add(Tasks* tasks, Task* task)
+void Tasks_cpy_without(Tasks* emitter, Tasks* receiver, int excluded)
 {
-    tasks->arr[tasks->count] = task;
-    tasks->count++;
+    for (unsigned int i = 0; i < emitter->count; i++)
+    {
+        if (emitter->arr[i]->id != excluded)
+        {
+            Task* tmp = emitter->arr[i];
+            Task* task = Task_factory(tmp->id, tmp->accomplished, tmp->priority, tmp->text, tmp->creation->toString, tmp->end->toString);
+            Tasks_add(receiver, task);
+        }
+    }
 }
