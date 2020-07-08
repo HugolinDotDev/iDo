@@ -20,4 +20,3 @@ typedef struct Date {
 
 extern Date* Date_factory(const char* date_str);
 extern void Date_destructor(Date* date);
-extern void Date_debug(Date* date);
