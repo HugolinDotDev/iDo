@@ -1,6 +1,6 @@
 # Todoit
 
-C remake of a first year Python project.  
+A simple todo list program to manage easily your tasks on different projects.
 ⚠️ Development in progress...
 
 ## 📒 Manual
@@ -17,22 +17,23 @@ C remake of a first year Python project.
 ⚠️ *tasks.csv file must be in the current folder you are working on.*  
 Current working commands are :  
 
-* `$ todoit h`          : Print help
-* `$ todoit ls`         : Print tasks
-* `$ todoit la`         : Print tasks in elegant way
-* `$ todoit find <id>`  : Print the task which correspond to id
-* `$ todoit tick <id>`  : Complete the task which correspond to id
-* `$ todoit ntick <id>` : Uncomplete the task which correspond to id
-* `$ todoit rm <id>`    : Remove a task definitely
+* `$ todoit h`                         : Print help
+* `$ todoit ls`                        : Print tasks
+* `$ todoit la`                        : Print tasks prettier
+* `$ todoit find <id>`                 : Print the task which correspond to id
+* `$ todoit tick <id>`                 : Complete the task which correspond to id
+* `$ todoit ntick <id>`                : Uncomplete the task which correspond to id
+* `$ todoit rm <id>`                   : Remove a task definitely
+* `$ todoit edit <id> <field> <value>` : Edit a task, editable fields are below 
+    * priority/p -> task's priority
+    * end/e -> task's deadline date
 
 ## 📋 Todo for now
 
-* Better handle error cases
-* Valid inputs
 * Add task
 * Find task(s) with filter
-* Sort tasks with filter
-* Edit task
+* Sort tasks with filter when printing
+* Edit task's text
 
 ## 🙏 Acknowledgements
 
