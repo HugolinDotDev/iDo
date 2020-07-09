@@ -1,6 +1,6 @@
 # iDo
 
-A simple todo list program wrote in C to manage easily your tasks on different projects.
+A simple todo list program wrote in C to manage easily your tasks on different projects.  
 ⚠️ Development in progress...
 
 ## 📒 Manual
