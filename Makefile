@@ -28,7 +28,7 @@ main.o: ./src/main.c ./include/cmd.h
 
 # Executable
 main: ./src/main.o ./src/fatal.o ./src/cmd.o ./src/task.o ./src/file.o ./src/date.o ./src/data_check.o
-	$(CC) $(CFLAGS) -o ./build/todoit ./src/main.o ./src/cmd.o ./src/fatal.o ./src/file.o ./src/date.o ./src/task.o ./src/data_check.o
+	$(CC) $(CFLAGS) -o ./build/ido ./src/main.o ./src/cmd.o ./src/fatal.o ./src/file.o ./src/date.o ./src/task.o ./src/data_check.o
 
 # Clean object files
 clean:
@@ -36,4 +36,4 @@ clean:
 
 # Clean object files and build files
 mrproper: clean
-	rm -f ./build/todoit
+	rm -f ./build/ido
