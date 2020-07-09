@@ -4,7 +4,7 @@
 #include "../include/date.h"
 
 #ifndef MAX_TEXT
-    #define MAX_TEXT 200
+    #define MAX_TEXT 201
 #endif
 #ifndef MAX_TASKS
     #define MAX_TASKS 1024
