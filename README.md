@@ -8,16 +8,18 @@ A simple todo list program wrote in C to manage easily your tasks on different p
 ### Use
 
 1. Compile with `$ make main`
-2. Execute with `$ ./build/ido`
-3. Clean object files with `$ make clean`
-4. (Clean object files and executable with `$ make mrproper`)
+2. Execute with `$ ./build/ido init`
+3. Do some commands
+4. (Clean object files with `$ make clean`)
+5. (Clean object files and executable with `$ make mrproper`)
 
 ### Commands
 
-⚠️ *For now, tasks.csv file must be in the current folder you are working on.*  
+⚠️ *For now, you must be where .ido folder was initialized to perform commands*  
 Current working commands are :  
 
 * `$ ido`                             : Show application details
+* `$ ido init`                        : Initialize a project
 * `$ ido <id>`                        : Same as find command
 * `$ ido help/h`                      : Print help
 * `$ ido ls`                          : Print tasks
@@ -33,11 +35,13 @@ Current working commands are :
 
 ## 📋 Todo for now
 
+* Check deadline is after creation
+* Alert when deadline is outdated
 * Add task
-* Refacto commands interface
 * Find task(s) with filter
 * Sort tasks with filter when printing
-* Initialize a project
+* Check if project files are corrupted
+* Access to project files in subfolders
 
 ## 🙏 Acknowledgements
 
