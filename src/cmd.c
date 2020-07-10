@@ -3,7 +3,8 @@
 void print_help()
 {
     printf(YEL "Usage : " RST "ido COMMAND <...>\n\n"
-                "<id>                             " GRN "Shortcut for find\n"
+                "init                             " GRN "Initialize a project\n"
+            RST "<id>                             " GRN "Shortcut for find\n"
             RST "find <id>                        " GRN "Find a task with it's id\n"
             RST "la                               " GRN "Print the tasks with details\n"
             RST "ls                               " GRN "Print the tasks\n"
@@ -11,9 +12,9 @@ void print_help()
             RST "tick <id>                        " GRN "Complete a task with it's id\n"
             RST "ntick <id>                       " GRN "Uncomplete a task with it's id\n"
             RST "edit/e <id> <" CYN "flag" RST "> <value>       " GRN "Edit a task, editable flags are below :\n"
-            CYN "  -text/-t     " GRN "                    => task's text (max 200 characters, must not include ';')\n"
-            CYN "  -priority/-p " GRN "                    => task's priority\n"
-            CYN "  -end/e       " GRN "                    => task's deadline (date)\n");
+            CYN "-text/-t     " GRN "                    => task's text (max 200 characters, must not include ';')\n"
+            CYN "-priority/-p " GRN "                    => task's priority\n"
+            CYN "-end/e       " GRN "                    => task's deadline (date)\n");
 }
 
 bool check_cmd_exists(const char* cmd, const char* cmds[], unsigned int len)
@@ -259,12 +260,24 @@ bool process_cmd(int argc, char* argv[])
         Tasks_destructor(tasks);
         return false;
     }
+    else if (!strcmp(cmd, "init"))
+    {
+        if (init_ido())
+        {
+            printf(GRN "Project successfully initialized\n" RST);
+        }
+        else
+        {
+            printf(RED "Project already initialized\n" RST);
+            return false;
+        }
+    }
     return true;
 }
 
 int parse_cmd(int argc, char* argv[])
 {
-    const char* COMMANDS[] = { "h", "help", "la", "ls", "add", "a", "edit", "e", "rm", "tick", "t", "ntick", "nt", "find", "f", "init" };
+    const char* COMMANDS[] = { "h", "help", "la", "ls", "add", "a", "edit", "e", "rm", "tick", "t", "ntick", "nt", "find", "f", "status", "s", "init" };
     int status = 0;
     if (argc > 1)
     {
@@ -283,7 +296,7 @@ int parse_cmd(int argc, char* argv[])
                 Task_destructor(task);
             }
         }
-        else if (check_cmd_exists(argv[1], COMMANDS, 16))
+        else if (check_cmd_exists(argv[1], COMMANDS, 18))
         {
             if (!process_cmd(argc, argv)) status = 1;
         }
