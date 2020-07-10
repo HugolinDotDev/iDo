@@ -26,6 +26,26 @@ void File_destructor(File* file)
     free(file);
 }
 
+typedef struct Datas {
+    File* stats;
+    File* tasks;
+} Datas;
+
+Datas* Datas_factory(const char* stats_path, const char* stats_mode, const char* tasks_path, const char* tasks_mode)
+{
+    Datas* datas = malloc(sizeof(Datas));
+    datas->stats = File_factory(stats_path, stats_mode);
+    datas->tasks = File_factory(tasks_path, tasks_mode);
+    return datas;
+}
+
+void Datas_destructor(Datas* datas)
+{
+    File_destructor(datas->stats);
+    File_destructor(datas->tasks);
+    free(datas);
+}
+
 bool str_to_bool(const char* value)
 {
     if (!strcmp(value, "t"))
@@ -116,4 +136,20 @@ void rewrite_tasks(const char* filename, Tasks* tasks)
                 tasks->arr[i]->priority, tasks->arr[i]->text, tasks->arr[i]->creation->toString, tasks->arr[i]->end->toString);
     }
     File_destructor(file);
+}
+
+bool init_ido()
+{
+    struct stat s = { 0 };
+    if (stat(".ido", &s) == -1)
+    {
+        mkdir(".ido", 0700);
+        File* tasks = File_factory(".ido/tasks.csv", "w");
+        File_destructor(tasks);
+        File* config = File_factory(".ido/stats", "w");
+        fprintf(config->fp, "id 0\ntasks 0\ntick 0\nntick 0\n");
+        File_destructor(config);
+        return true;
+    }
+    return false;
 }
